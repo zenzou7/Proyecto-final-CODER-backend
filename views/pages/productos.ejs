@@ -108,7 +108,7 @@
             mostrarCart.append(botonConfirmarCompra)
             botonConfirmarCompra.onclick = () =>{
                 if(carritoData.length){
-                    fetch('hhttps://proyecto-final-coder-backend-production.up.railway.app/api/pedidos',{
+                    fetch('https://proyecto-final-coder-backend-production.up.railway.app/api/pedidos',{
                         method: 'POST',
                         body: JSON.stringify(carritoData),
                         headers:{
