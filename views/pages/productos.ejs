@@ -20,7 +20,7 @@
 
       let carritoData =[]
       const items =[]
-      let url = 'http://127.0.0.1:8080/api/json'
+      let url = 'https://proyecto-final-coder-backend-production.up.railway.app/api/json'
       fetch(url)
       .then(resp => resp.json())
       .then(item => mostrarProdsAll(item))
