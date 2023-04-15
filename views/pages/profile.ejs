@@ -69,12 +69,12 @@
             let pedidosAlert = document.createElement("h2")
             pedidosAlert.setAttribute("class", "alerta")
     
-            if(pedidosData.length==0){
-                pedidosAlert.innerText = ("Aun no tienes pedidos")
-                userPedidos.append(pedidosAlert)
-            }else{
-                mostrarPedidos(pedidosData)
-            }
+        }
+        if(pedidosData.length==0){
+            pedidosAlert.innerText = ("Aun no tienes pedidos")
+            userPedidos.append(pedidosAlert)
+        }else{
+            mostrarPedidos(pedidosData)
         }
     </script>
 </body>
