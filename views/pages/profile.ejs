@@ -26,14 +26,14 @@
         let userPedidos = document.getElementById("pedidos");
         let url = "https://proyecto-final-coder-backend-production.up.railway.app/api/pedidos"
         let pedidosData=[];
-        
 
         fetch(url)
         .then(resp => resp.json())
-        .then(pedidos => pedidosData.push(pedidos))
+        .then(pedidos => mostrarPedidos(pedidos))
 
         function mostrarPedidos(pedidos){
             pedidos.forEach(ped => {
+                pedidosData.push(ped)
                 let pedidoCard = document.createElement("div")
 
                 let pedidoTitle = document.createElement("h2")
@@ -46,8 +46,9 @@
                     card.innerHTML += `
                     <div class="pedido__card">
                     <img class="pedido__card__img" width="100px" src="${prop.thumbnail}">
-                    <h3 class="pedido__card__nombre">${prop.name}</h3>
-                    <p class="pedido__card__precio">$${prop.price}</p></div>`
+                    <h3 class="pedido__card__nombre">nombre: ${prop.name}</h3>
+                    <p class="pedido__card__precio">precio: $${prop.price}</p></div>
+                    <p class="pedido__card__cantidad">unidades: ${prop.cantidad}</p></div>`
                     pedidoCard.append(card)
                 })
                 let botonBorrar = document.createElement("button")
@@ -57,24 +58,15 @@
 
                 botonBorrar.onclick = () =>{
                     const pedidoId = ped._id
-                    pedidosFilter = pedidosData.filter(pedidos => pedidos._id!== pedidoId)
-                    userPedidos.innerHTML=``
+                    let pedidosFilter = pedidosData.filter(pedidos => pedidos._id!== pedidoId)
+                    userPedidos.innerHTML=`<h1>Tus pedidos</h1>`
                     
                     fetch(`https://proyecto-final-coder-backend-production.up.railway.app/api/pedidos/${ped._id}`,{
                         method: 'DELETE',
                     })
-                    mostrarPedidos()
+                    mostrarPedidos(pedidosFilter)
                 }
             });
-        }
-        let pedidosAlert = document.createElement("h2")
-        pedidosAlert.setAttribute("class", "alerta")
-
-        if(pedidosData.length==0){
-            pedidosAlert.innerText = ("Aun no tienes pedidos")
-            userPedidos.append(pedidosAlert)
-        }else{
-            mostrarPedidos(pedidosData)
         }
     </script>
 </body>
