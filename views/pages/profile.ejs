@@ -18,7 +18,9 @@
         <p>Contact phone: <%= user.number%></p>
         <img src="<%= user.avatar%>" alt="Profile pic">
     </div>
-    <div id="pedidos"></div>
+    <div id="pedidos">
+        <h1>Tus pedidos</h1>
+    </div>
     
     <script>
         let userPedidos = document.getElementById("pedidos");
@@ -28,16 +30,10 @@
 
         fetch(url)
         .then(resp => resp.json())
-        .then(pedidos => mostrarPedidos(pedidos))
-
-        let title = document.createElement("h1")
-        title.innerHTML=("Tus pedidos")
-        userPedidos.append(title)
+        .then(pedidos => pedidosData.push(pedidos))
 
         function mostrarPedidos(pedidos){
             pedidos.forEach(ped => {
-                pedidosData.push(ped)
-
                 let pedidoCard = document.createElement("div")
 
                 let pedidoTitle = document.createElement("h2")
@@ -63,7 +59,7 @@
                     const pedidoId = ped._id
                     pedidosFilter = pedidosData.filter(pedidos => pedidos._id!== pedidoId)
                     userPedidos.innerHTML=``
-                    console.log(pedidoId)
+                    
                     fetch(`https://proyecto-final-coder-backend-production.up.railway.app/api/pedidos/${ped._id}`,{
                         method: 'DELETE',
                     })
@@ -76,7 +72,9 @@
             if(pedidosData.length==0){
                 pedidosAlert.innerText = ("Aun no tienes pedidos")
                 userPedidos.append(pedidosAlert)
-        }
+            }else{
+                mostrarPedidos(pedidosData)
+            }
         }
     </script>
 </body>
