@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 class ContenedorMongo {
   constructor(ruta) {
     this.ruta = ruta;
@@ -40,7 +42,7 @@ class ContenedorMongo {
   async delete(id) {
     if (id) {
       const idObject = mongoose.Types.ObjectId(id);
-      const usuarioBorrar = await this.ruta.deleteOne({ _id: idObject });
+      await this.ruta.deleteOne({ _id: idObject });
       return console.log(`Producto ${idObject} borrado`);
     } else {
       const deleteAll = await this.ruta.deleteMany({});

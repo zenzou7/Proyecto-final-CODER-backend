@@ -1,34 +1,45 @@
 const socket = io();
-socket.on('connect', () => {
-  console.log('me conecte!');
-});
+socket.on("connect", () => {});
 
 function sendMsg() {
-  const nombre = document.getElementById('nombre').value;
-  const apellido = document.getElementById('apellido').value;
-  const edad = document.getElementById('edad').value;
-  const avatar = document.getElementById('avatar').value;
-  const email = document.getElementById('email').value;
-  const msg = document.getElementById('msg').value;
-  socket.emit('msg', { nombre: nombre, apellido: apellido, edad: edad, avatar: avatar, email: email, mensaje: msg });
+  const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
+  const edad = document.getElementById("edad").value;
+  const avatar = document.getElementById("avatar").value;
+  const email = document.getElementById("email").value;
+  const msg = document.getElementById("msg").value;
+  socket.emit("msg", {
+    nombre: nombre,
+    apellido: apellido,
+    edad: edad,
+    avatar: avatar,
+    email: email,
+    mensaje: msg,
+  });
 }
 
-socket.on('msg-list', (data) => {
-  let mensaje = document.getElementById('messages');
+socket.on("msg-list", (data) => {
+  let mensaje = document.getElementById("messages");
   mensaje.innerHTML = ``;
 
-  const mensajeSchema = new normalizr.schema.Entity('mensaje');
+  const mensajeSchema = new normalizr.schema.Entity("mensaje");
   const authorSchema = new normalizr.schema.Entity(
-    'author',
+    "author",
     {
       mensaje: mensajeSchema,
     },
-    { idAttribute: 'email' }
+    { idAttribute: "email" }
   );
-  const chatSchema = new normalizr.schema.Entity('chat', { author: [authorSchema] });
+  const chatSchema = new normalizr.schema.Entity("chat", {
+    author: [authorSchema],
+  });
   const normalizado = data.normalizado;
 
-  const desnormalizado = normalizr.denormalize(normalizado.result, chatSchema, normalizado.entities);
+  const desnormalizado = normalizr.denormalize(
+    normalizado.result,
+    chatSchema,
+    normalizado.entities
+  );
 
   const dataNormLen = JSON.stringify(normalizado).length;
   const dataDenormLen = JSON.stringify(desnormalizado).length;
@@ -65,14 +76,14 @@ socket.on('msg-list', (data) => {
 });
 
 function sendTable() {
-  const name = document.getElementById('name').value;
-  const price = document.getElementById('price').value;
-  const thumbnail = document.getElementById('thumbnail').value;
-  socket.emit('sendTable', { name: name, price: price, thumbnail: thumbnail });
+  const name = document.getElementById("name").value;
+  const price = document.getElementById("price").value;
+  const thumbnail = document.getElementById("thumbnail").value;
+  socket.emit("sendTable", { name: name, price: price, thumbnail: thumbnail });
 }
 
-socket.on('prods', (data) => {
-  let tabla = document.getElementById('prods__table');
+socket.on("prods", (data) => {
+  let tabla = document.getElementById("prods__table");
   tabla.innerHTML = ``;
   let html = ` 
     <TR>

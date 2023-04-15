@@ -4,8 +4,6 @@ const DAO = config.DB;
 
 async function websocket(io) {
   io.on("connection", async (socket) => {
-    console.log("Usuario conectado");
-
     socket.on("msg", async (data) => {
       let fecha = new Date();
 

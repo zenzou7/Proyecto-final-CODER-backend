@@ -6,16 +6,78 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>profile</title>
 </head>
-<body>
+<body>    
     <h1>Datos del usuario</h1>
-    <div>
-        <%= user.username%><br />
-        <%= user.password%><br />
-        <%= user.email%><br />
-        <%= user.avatar%><br />
-        <%= user.number%><br />
-    </div>
     <a href="/api/productos">Ver productos</a>
-    <a href="/api/usuarios/logout">Salir</a>
+    <a href="/api/usuarios/logout">Salir</a><br>
+    <br>
+    <div>
+        <p>Username: <%= user.username%></p>
+        <p>Password: <%= user.password%></p>
+        <p>Email: <%= user.email%></p>
+        <p>Contact phone: <%= user.number%></p>
+        <img src="<%= user.avatar%>" alt="Profile pic">
+    </div>
+    <div id="pedidos"></div>
+    
+    <script>
+        let userPedidos = document.getElementById("pedidos");
+        let url = "https://proyecto-final-coder-backend-production.up.railway.app/api/pedidos"
+        let pedidosData=[];
+        
+
+        fetch(url)
+        .then(resp => resp.json())
+        .then(pedidos => mostrarPedidos(pedidos))
+
+        let title = document.createElement("h1")
+        title.innerHTML=("Tus pedidos")
+        userPedidos.append(title)
+
+        function mostrarPedidos(pedidos){
+            pedidos.forEach(ped => {
+                pedidosData.push(ped)
+
+                let pedidoCard = document.createElement("div")
+
+                let pedidoTitle = document.createElement("h2")
+                pedidoTitle.innerHTML = (`Pedido con id: ${ped._id}`)
+                pedidoCard.append(pedidoTitle)
+
+                ped.pedido.forEach(prop =>{
+                    let card = document.createElement("div")
+                    card.setAttribute("class", "card")
+                    card.innerHTML += `
+                    <div class="pedido__card">
+                    <img class="pedido__card__img" width="100px" src="${prop.thumbnail}">
+                    <h3 class="pedido__card__nombre">${prop.name}</h3>
+                    <p class="pedido__card__precio">$${prop.price}</p></div>`
+                    pedidoCard.append(card)
+                })
+                let botonBorrar = document.createElement("button")
+                botonBorrar.innerText = ("Cancelar pedido")
+                pedidoCard.append(botonBorrar)
+                userPedidos.append(pedidoCard)
+
+                botonBorrar.onclick = () =>{
+                    const pedidoId = ped._id
+                    pedidosFilter = pedidosData.filter(pedidos => pedidos._id!== pedidoId)
+                    userPedidos.innerHTML=``
+                    console.log(pedidoId)
+                    fetch(`https://proyecto-final-coder-backend-production.up.railway.app/api/pedidos/${ped._id}`,{
+                        method: 'DELETE',
+                    })
+                    mostrarPedidos()
+                }
+            });
+            let pedidosAlert = document.createElement("h2")
+            pedidosAlert.setAttribute("class", "alerta")
+    
+            if(pedidosData.length==0){
+                pedidosAlert.innerText = ("Aun no tienes pedidos")
+                userPedidos.append(pedidosAlert)
+        }
+        }
+    </script>
 </body>
 </html>
