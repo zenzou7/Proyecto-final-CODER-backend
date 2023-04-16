@@ -15,7 +15,7 @@ const MongoDBService = async () => {
 
 const MongoSession = session({
   store: MongoStore.create({
-    mongoUrl: config.MONGOURLSESSION,
+    mongoUrl: config.MONGOURL,
     mongoOptions: {
       useNewUrlParser: true,
       useUnifiedTopology: true,

@@ -9,10 +9,9 @@ async function websocket(io) {
 
       const msg = {
         author: {
-          id: data.email,
+          email: data.email,
           nombre: data.nombre,
           apellido: data.apellido,
-          edad: data.edad,
           avatar: data.avatar,
         },
         text: {
@@ -50,7 +49,6 @@ async function websocket(io) {
         { id: "chatHistory", messages: allData },
         chatSchema
       );
-      console.log(JSON.stringify(normalizado));
 
       io.sockets.emit("msg-list", { normalizado: normalizado });
     });

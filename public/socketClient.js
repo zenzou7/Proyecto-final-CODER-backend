@@ -4,14 +4,12 @@ socket.on("connect", () => {});
 function sendMsg() {
   const nombre = document.getElementById("nombre").value;
   const apellido = document.getElementById("apellido").value;
-  const edad = document.getElementById("edad").value;
   const avatar = document.getElementById("avatar").value;
   const email = document.getElementById("email").value;
   const msg = document.getElementById("msg").value;
   socket.emit("msg", {
     nombre: nombre,
     apellido: apellido,
-    edad: edad,
     avatar: avatar,
     email: email,
     mensaje: msg,
@@ -41,13 +39,9 @@ socket.on("msg-list", (data) => {
     normalizado.entities
   );
 
-  const dataNormLen = JSON.stringify(normalizado).length;
-  const dataDenormLen = JSON.stringify(desnormalizado).length;
-  const porcent = (dataNormLen / dataDenormLen) * 100;
-
   if (mensaje.innerHTML.length > 0) {
     mensaje.innerHTML = ``;
-    html = ` <br/> <h2>(COMPRESIÓN: %${porcent.toFixed(2)} )</h3> <br/>`;
+    let html = ``;
     desnormalizado.messages.forEach((obj) => {
       html += `
       <div class="message">
@@ -60,7 +54,8 @@ socket.on("msg-list", (data) => {
       mensaje.innerHTML += html;
     });
   } else {
-    html = ` <br/> <h2>(COMPRESIÓN: %${porcent.toFixed(2)} )</h3> <br/>`;
+    mensaje.innerHTML = ``;
+    let html = ``;
     desnormalizado.messages.forEach((obj) => {
       html += `
       <div class="message">
