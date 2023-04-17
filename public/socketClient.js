@@ -18,7 +18,6 @@ function sendMsg() {
 
 socket.on("msg-list", (data) => {
   let mensaje = document.getElementById("messages");
-  mensaje.innerHTML = ``;
 
   const mensajeSchema = new normalizr.schema.Entity("mensaje");
   const authorSchema = new normalizr.schema.Entity(
@@ -39,35 +38,21 @@ socket.on("msg-list", (data) => {
     normalizado.entities
   );
 
-  if (mensaje.innerHTML.length > 0) {
-    mensaje.innerHTML = ``;
-    let html = ``;
-    desnormalizado.messages.forEach((obj) => {
-      html += `
+  const messagesReverse = desnormalizado.messages.reverse();
+
+  mensaje.innerHTML = ``;
+  messagesReverse.forEach((obj) => {
+    mensaje.innerHTML += `
       <div class="message">
-        <img src="${obj.author.avatar}" width="150">
-        <p class="message__email">${obj.author.id}</p>
+        <img src="${obj.author.avatar}" width="100">
+        <p class="message__email">${obj.author.email}</p>
+        <p class="message__name">${obj.author.nombre} ${obj.author.apellido}</p>
         <p class="message__date">fecha: ${obj.text.fecha} hora:${obj.text.hora}</p>
         <p class="message__msg">dijo: ${obj.text.mensaje}</p>
       </div><br>
       `;
-      mensaje.innerHTML += html;
-    });
-  } else {
-    mensaje.innerHTML = ``;
-    let html = ``;
-    desnormalizado.messages.forEach((obj) => {
-      html += `
-      <div class="message">
-        <img src="${obj.author.avatar}">
-        <p class="message__email">${obj.author.id}</p>
-        <p class="message__date">fecha: ${obj.text.fecha} hora:${obj.text.hora}</p>
-        <p class="message__msg">dijo: ${obj.text.mensaje}</p>
-      </div><br>
-      `;
-      mensaje.innerHTML += html;
-    });
-  }
+    //mensaje.innerHTML += html;
+  });
 });
 
 function sendTable() {

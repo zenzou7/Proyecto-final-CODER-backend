@@ -1,9 +1,12 @@
-const { normalize, schema } = require("normalizr");
 const config = require("../../config/config.js");
 const DAO = config.DB;
+const normalizeChat = require("../../utils/normalizrChat.js");
 
 async function websocket(io) {
   io.on("connection", async (socket) => {
+    const chatHistorial = await normalizeChat();
+    socket.emit("msg-list", { normalizado: chatHistorial });
+
     socket.on("msg", async (data) => {
       let fecha = new Date();
 
@@ -32,23 +35,8 @@ async function websocket(io) {
       };
 
       DAO.mensajes.save(msg);
-      const allData = await DAO.mensajes.getAll();
 
-      const mensajeSchema = new schema.Entity("mensaje");
-      const authorSchema = new schema.Entity(
-        "author",
-        {
-          mensaje: mensajeSchema,
-        },
-        { idAttribute: "email" }
-      );
-      const chatSchema = new schema.Entity("chat", {
-        author: [authorSchema],
-      });
-      const normalizado = normalize(
-        { id: "chatHistory", messages: allData },
-        chatSchema
-      );
+      const normalizado = await normalizeChat(data);
 
       io.sockets.emit("msg-list", { normalizado: normalizado });
     });
