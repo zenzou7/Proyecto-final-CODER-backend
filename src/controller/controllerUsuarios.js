@@ -1,7 +1,6 @@
 const yargs = require("yargs/yargs")(process.argv.slice(2));
 const config = require("../../config/config.js");
 const args = yargs.default({ PORT: config.PORT }).argv;
-const config = require("../../config/config.js");
 const DAO = config.DB;
 const winston = require("winston");
 

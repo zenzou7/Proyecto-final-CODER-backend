@@ -13,7 +13,7 @@ const getById = async () => {
 
 const saveProd = async (obj) => {
   await DAO.productos.save(obj);
-  return console.log(`Producto ${obj} guardado`);
+  return console.log(`Producto ${obj.name} guardado`);
 };
 
 const updateProd = async (id, obj) => {

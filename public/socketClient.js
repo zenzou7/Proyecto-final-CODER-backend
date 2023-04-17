@@ -45,7 +45,7 @@ socket.on("msg-list", (data) => {
     desnormalizado.messages.forEach((obj) => {
       html += `
       <div class="message">
-        <img src="${obj.author.avatar}">
+        <img src="${obj.author.avatar}" width="150">
         <p class="message__email">${obj.author.id}</p>
         <p class="message__date">fecha: ${obj.text.fecha} hora:${obj.text.hora}</p>
         <p class="message__msg">dijo: ${obj.text.mensaje}</p>

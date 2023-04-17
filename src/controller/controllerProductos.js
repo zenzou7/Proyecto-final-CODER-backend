@@ -44,8 +44,6 @@ const routerPostForm = (req, res) => {
     const body = req.body;
     if (body) {
       saveProd(body);
-
-      res.redirect("/");
     } else {
       res.json({ error: true, msg: "Producto no agregado" });
     }
