@@ -1,6 +1,8 @@
 const yargs = require("yargs/yargs")(process.argv.slice(2));
 const config = require("../../config/config.js");
 const args = yargs.default({ PORT: config.PORT }).argv;
+const config = require("../../config/config.js");
+const DAO = config.DB;
 const winston = require("winston");
 
 const logger = winston.createLogger({
@@ -68,11 +70,12 @@ const routerGetSignup = (req, res) => {
   }
 };
 
-const routerPostSignup = (req, res) => {
+const routerPostSignup = async (req, res) => {
   logger.log("info", "Post en /api/usuarios/signup - log info");
 
   const { username, password, number, avatar, email } = req.body;
   const user = { username, password, number, avatar, email };
+  await DAO.save(user);
   res.render("pages/profile", { user });
 };
 
