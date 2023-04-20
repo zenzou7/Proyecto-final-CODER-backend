@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
     <title>login</title>
 </head>
 <body>
-        <h2>Login</h2>
-        <form action="/api/usuarios/login" id="login" method="POST">
-          <input placeholder="username" id="username" name="username" required/>   
-          <input placeholder="password" id="password" name="password" required/>   
-          <button type="submit">Ingresar</button>
-        </form>
-        <a href="/api/usuarios/signup">Ir a signup</a>
+  <h2>Bienvenido</h2>
+  <div class="form-container">
+    <form action="/api/usuarios/login" id="login" method="POST" >
+      <input type="text" placeholder="username" id="username" name="username" required/>   
+      <input type="password" placeholder="password" id="password" name="password" required/>   
+      <button class="btn-login" type="submit">Login</button>
+    </form>
+    <a class="btn-new" href="/api/usuarios/signup">Create new Account</a>
+  </div>
 </body>
 </html>
